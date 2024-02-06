@@ -3,7 +3,7 @@ const dialog = document.querySelector(".addTask");
 const add = document.querySelector(".add");
 const container = document.querySelector(".tasks");
 const cancelBtn = document.querySelector(".cancel")
-let str = "";
+
 
 
 window.onload = () => {
@@ -20,11 +20,12 @@ addTaskBtn.addEventListener("click", () => {
     dialog.classList.add("show");
 })
 
-add.addEventListener("click", () => {
+add.addEventListener("click", (e) => {
     if(!validateForm()){
         showErrorMsg("all fields are mandatory");
         return;
     };
+    e.target.disabled = true;
     dialog.classList.remove("show");
     addTask();
     displayTasks();
@@ -34,16 +35,23 @@ add.addEventListener("click", () => {
 function addTask() {
     let taskTitle = document.querySelector('.title').value;
     let taskCategory = document.querySelector(".category").value;
+    let day = document.querySelector(".day").value;
+    let month = document.querySelector(".month").value;
+    let year = document.querySelector(".year").value;
     let taskStatus = false;
 
     if (localStorage.getItem("value") === null || localStorage.getItem("value") === "") {
-        str = str + `${taskTitle},${taskCategory},${taskStatus}`
+        let str = "";
+        str = str + `${taskTitle},${taskCategory},${taskStatus},${day},${month},${year}`
+        localStorage.setItem("value", str)
     } else {
-        str = str + `,${taskTitle},${taskCategory},${taskStatus}`
+        let str = localStorage.getItem("value");
+        str = str + `,${taskTitle},${taskCategory},${taskStatus},${day},${month},${year}`
+        localStorage.setItem("value", str)
     }
 
 
-    localStorage.setItem("value", str)
+    
 }
 
 
@@ -56,10 +64,10 @@ function displayTasks() {
         return;
     }
 
+
     let arr = localStorage.getItem("value").split(",");
     // console.log(arr);
-    console.log(arr)
-    for (let i = 0; i < arr.length; i += 3) {
+    for (let i = 0; i < arr.length; i += 6) {
         let ele = document.createElement("div");
         ele.classList.add("task");
         if (arr[i + 2] === "true") {
@@ -69,7 +77,7 @@ function displayTasks() {
                 <div style = "text-decoration:line-through;">${arr[i]}</div>
                 <div class="category">${arr[i + 1]}</div>
             </div>
-            <div class="dd">12-10-2024</div>
+            <div class="dd">${arr[i+3]}-${arr[i+4]}-${arr[i+5]}</div>
             <div class="icon" style="cursor:pointer;" data-num = ${i} onclick = deletetask(this)>&#10006</div>
         </div>`
         } else {
@@ -80,7 +88,7 @@ function displayTasks() {
                     <div>${arr[i]}</div>
                     <div class="category">${arr[i + 1]}</div>
                 </div>
-                <div class="dd">12-10-2024</div>
+                <div class="dd">${arr[i+3]}-${arr[i+4]}-${arr[i+5]}</div>
                 <div class="icon" style="cursor:pointer;" data-num = ${i} onclick = deletetask(this)>&#10006</div>
             </div>`
         }
@@ -95,6 +103,7 @@ function displayTasks() {
 
 
 function clearForm() {
+    add.disabled = false;
     document.querySelector(".errmsg").classList.remove("bb");
     document.querySelector(".title").value = "";
     document.querySelector(".category").value = "";
@@ -104,7 +113,7 @@ function clearForm() {
 function deletetask(target) {
     let num = target.getAttribute("data-num");
     let arr = localStorage.getItem("value").split(",");
-    arr.splice(num, 3);
+    arr.splice(num, 6);
     str = arr.join();
     localStorage.setItem("value", str);
     displayTasks();
@@ -136,8 +145,13 @@ function checkTask(target) {
 function validateForm(){
     let taskTitle = document.querySelector('.title').value;
     let taskCategory = document.querySelector(".category").value;
+    let day = document.querySelector(".day").value;
+    let month = document.querySelector(".month").value;
+    let year = document.querySelector(".year").value;
 
-    if(!taskTitle || !taskCategory) return false;
+
+    if(!taskTitle || !taskCategory || !day || !month || !year) return false;
+
 
     return true;
 }
