@@ -13,12 +13,13 @@
     <header>
         <div class="name">Your name</div>
         <input type="text" name="search" id="search" placeholder="/search">
-        <button>Add +</button>
+        <button class="addTaskBtn btn">Add +</button>
     </header>
 
 
     <!-- addtask dialog -->
     <div class="addTask">
+        <div class="errmsg">this is error message</div>
         <input type="text" name="title" id="" class="taskField" placeholder="Task Title">
         <input type="text" name="description" id="" class="taskField desc" placeholder="Task Description">
         <input type="text" name="description" id="" class="taskField " placeholder="Task Category">
@@ -31,28 +32,13 @@
             <span>/</span>
             <input type="number" name="" id="" class="date">
         </div>
+        <button class="add btn">Add</button>
     </div>
 
 
     <!-- tasks -->
     <div class="tasks">
         <!-- this is the task component -->
-        <div class="task">
-            <input type="checkbox" name="" id="" class="check">
-            <div class="taskInfo">
-                <div class="taskName">Task name</div>
-                <div class="dd">12-10-2024</div>
-                <div class="icon">jj</div>
-            </div>
-        </div>
-        <div class="task">
-            <input type="checkbox" name="" id="" class="check">
-            <div class="taskInfo">
-                <div class="taskName">Task name</div>
-                <div class="dd">12-10-2024</div>
-                <div class="icon">jj</div>
-            </div>
-        </div>
         <div class="task">
             <input type="checkbox" name="" id="" class="check">
             <div class="taskInfo">
