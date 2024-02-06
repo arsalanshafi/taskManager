@@ -21,6 +21,10 @@ addTaskBtn.addEventListener("click", () => {
 })
 
 add.addEventListener("click", () => {
+    if(!validateForm()){
+        showErrorMsg("all fields are mandatory");
+        return;
+    };
     dialog.classList.remove("show");
     addTask();
     displayTasks();
@@ -91,6 +95,7 @@ function displayTasks() {
 
 
 function clearForm() {
+    document.querySelector(".errmsg").classList.remove("bb");
     document.querySelector(".title").value = "";
     document.querySelector(".category").value = "";
 }
@@ -125,6 +130,22 @@ function checkTask(target) {
     target.nextElementSibling.firstElementChild.firstElementChild.style.textDecoration = "none";
     return;
 
+}
+
+
+function validateForm(){
+    let taskTitle = document.querySelector('.title').value;
+    let taskCategory = document.querySelector(".category").value;
+
+    if(!taskTitle || !taskCategory) return false;
+
+    return true;
+}
+
+function showErrorMsg(name){
+    let ele = document.querySelector(".errmsg");
+    ele.innerHTML = name;
+    ele.classList.add("bb");
 }
 
 /* <div class="task">
