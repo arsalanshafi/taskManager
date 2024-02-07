@@ -2,13 +2,21 @@ const addTaskBtn = document.querySelector(".addTaskBtn");
 const dialog = document.querySelector(".addTask");
 const add = document.querySelector(".add");
 const container = document.querySelector(".tasks");
-const cancelBtn = document.querySelector(".cancel")
+const cancelBtn = document.querySelector(".cancel");
+const search = document.querySelector("#search");
 
 
 
 window.onload = () => {
     displayTasks();
+    setDate();
 }
+
+search.addEventListener("input", e => {
+    let index = searchByCategory(e.target.value);
+    showSearchResults(index);
+})
+search.addEventListener("blur",displayTasks);
 
 
 cancelBtn.addEventListener("click", () => {
@@ -156,17 +164,60 @@ function validateForm(){
     return true;
 }
 
+function setDate(){
+    let obj = new Date();
+    document.querySelector(".day").value = obj.getDate();
+    document.querySelector(".month").value = obj.getMonth()+1;
+}
+
 function showErrorMsg(name){
     let ele = document.querySelector(".errmsg");
     ele.innerHTML = name;
     ele.classList.add("bb");
 }
 
-/* <div class="task">
-        <input type="checkbox" name="" id="" class="check">
+function searchByCategory(category){
+    let arr = localStorage.getItem("value").split(",");
+    let index = [];
+
+    for(let i =1;i<arr.length;i += 6){
+        if(arr[i].toLowerCase().includes(category.toLowerCase())) index.push(i-1);
+    }
+    return index;
+}
+
+
+
+function showSearchResults(localArr){
+    container.innerHTML = "";
+    let arr = localStorage.getItem("value").split(",");
+
+    localArr.forEach(i => {
+        let ele = document.createElement("div");
+        ele.classList.add("task");
+        if (arr[i + 2] === "true") {
+            ele.innerHTML = `<input type="checkbox" data-num = ${i} id="" class="check" onclick = checkTask(this) checked>
         <div class="taskInfo">
-            <div class="taskName">Task name</div>
-            <div class="dd">12-10-2024</div>
-            <div class="icon">jj</div>
-        </div>
-</div> */
+            <div class="taskName">
+                <div style = "text-decoration:line-through;">${arr[i]}</div>
+                <div class="category">${arr[i + 1]}</div>
+            </div>
+            <div class="dd">${arr[i+3]}-${arr[i+4]}-${arr[i+5]}</div>
+            <div class="icon" style="cursor:pointer;" data-num = ${i} onclick = deletetask(this)>&#10006</div>
+        </div>`
+        } else {
+
+            ele.innerHTML = `<input type="checkbox" data-num = ${i} id="" class="check" onclick = checkTask(this)>
+            <div class="taskInfo">
+                <div class="taskName">
+                    <div>${arr[i]}</div>
+                    <div class="category">${arr[i + 1]}</div>
+                </div>
+                <div class="dd">${arr[i+3]}-${arr[i+4]}-${arr[i+5]}</div>
+                <div class="icon" style="cursor:pointer;" data-num = ${i} onclick = deletetask(this)>&#10006</div>
+            </div>`
+        }
+
+        container.appendChild(ele);
+    })
+}
