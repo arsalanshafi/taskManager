@@ -175,7 +175,7 @@ input:focus{
     }
     .btn{
         width: 100%;
-        margin-block: 20px;
+        margin: 5px;
     }
     .tasks{
         width: 100%;
