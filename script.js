@@ -79,6 +79,7 @@ function displayTasks() {
         let ele = document.createElement("div");
         ele.classList.add("task");
         if (arr[i + 2] === "true") {
+            ele.classList.add("lessOpacity");
             ele.innerHTML = `<input type="checkbox" data-num = ${i} id="" class="check" onclick = checkTask(this) checked>
         <div class="taskInfo">
             <div class="taskName">
@@ -136,6 +137,7 @@ function checkTask(target) {
         let str = arr.join();
         localStorage.setItem("value", str);
         target.nextElementSibling.firstElementChild.firstElementChild.style.textDecoration = "line-through";
+        displayTasks();
         return;
     }
 
@@ -145,6 +147,7 @@ function checkTask(target) {
     let str = arr.join();
     localStorage.setItem("value", str);
     target.nextElementSibling.firstElementChild.firstElementChild.style.textDecoration = "none";
+    displayTasks();
     return;
 
 }
