@@ -152,3 +152,27 @@ input:focus{
     margin-inline: 30px;
     align-self: center;
 }
+
+
+
+@media only screen and (max-width:412px){
+    header{
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .name{
+        font-size: 20px;
+        width: 100px;
+        margin: 5px auto;
+    }
+    #search{
+        font-size: 20px;
+        width: 100%;
+        margin:5px auto;
+        display: block;
+    }
+    .btn{
+        width: 100%;
+    }
+}
