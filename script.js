@@ -102,7 +102,7 @@ function displayTasks() {
             </div>`
         }
 
-        container.appendChild(ele);
+    container.insertBefore(ele,container.firstElementChild);
     }
 
 
